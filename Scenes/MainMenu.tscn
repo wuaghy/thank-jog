@@ -1,9 +1,58 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://dd8a4f6d4d8m9"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1"]
-[ext_resource type="Texture2D" path="res://Assets/ui/play_button.png" id="2"]
-[ext_resource type="Texture2D" path="res://Assets/ui/main_menu_background.jpg" id="3"]
-[ext_resource type="AudioStream" path="res://Assets/audio/Ninjago_Overture.mp3" id="4"]
+[ext_resource type="Texture2D" path="res://Assets/ui/main_menu_bg_4k_final.jpg" id="2"]
+[ext_resource type="AudioStream" path="res://Assets/audio/Ninjago_Overture.mp3" id="3"]
+[ext_resource type="AudioStream" path="res://Assets/audio/level1_eat_food.mp3" id="4"]
+[ext_resource type="AudioStream" path="res://Assets/audio/punch_attack1.mp3" id="5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+bg_color = Color(0.6, 0.05, 0.05, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.85, 0.75, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+bg_color = Color(0.75, 0.1, 0.1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.9, 0.3, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
+bg_color = Color(0.4, 0.0, 0.0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.6, 0.5, 0.1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -15,8 +64,21 @@ grow_vertical = 2
 script = ExtResource("1")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4")
+stream = ExtResource("3")
 volume_db = -4.0
+bus = &"Music"
+
+[node name="SfxHover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5")
+volume_db = -5.0
+pitch_scale = 1.5
+bus = &"SFX"
+
+[node name="SfxClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4")
+volume_db = 2.0
+pitch_scale = 1.2
+bus = &"SFX"
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -26,25 +88,151 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("3")
+texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 6
+modulate = Color(0.3, 0.3, 0.3, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="ForegroundImage" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 12
-anchor_left = 0.0
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -200.0
-offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="PlayButton" type="TextureButton" parent="CenterContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(380, 110)
-texture_normal = ExtResource("2")
-ignore_texture_size = false
+mouse_filter = 2
+texture = ExtResource("2")
+expand_mode = 1
 stretch_mode = 5
+
+[node name="MenuContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -300.0
+offset_right = 200.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
+theme_override_colors/font_hover_color = Color(1, 0.95, 0.4, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.6, 0.1, 1)
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+text = "CHƠI GAME"
+
+[node name="SettingsButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
+theme_override_colors/font_hover_color = Color(1, 0.95, 0.4, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.6, 0.1, 1)
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+text = "CÀI ĐẶT"
+
+[node name="QuitButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
+theme_override_colors/font_hover_color = Color(1, 0.95, 0.4, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.6, 0.1, 1)
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+text = "THOÁT GAME"
+
+[node name="SettingsPanel" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Title" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
+theme_override_font_sizes/font_size = 56
+text = "CÀI ĐẶT ÂM THANH"
+horizontal_alignment = 1
+
+[node name="MasterVolLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Âm Lượng Tổng"
+
+[node name="MasterSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+min_value = -40.0
+max_value = 10.0
+value = 0.0
+
+[node name="MusicVolLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Nhạc Nền"
+
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+min_value = -40.0
+max_value = 10.0
+value = 0.0
+
+[node name="SfxVolLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Hiệu Ứng"
+
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+min_value = -40.0
+max_value = 10.0
+value = 0.0
+
+[node name="CloseButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.2, 1)
+theme_override_colors/font_hover_color = Color(1, 0.95, 0.4, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.6, 0.1, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+text = "ĐÓNG"

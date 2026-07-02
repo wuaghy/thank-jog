@@ -35,6 +35,7 @@ var _level2_minions_cleared_emitted: bool = false
 # Signals (used by UI and scene managers)
 signal level1_food_updated(collected: int, required: int)
 ## Emitted once when Level 1 tutorial image intro has finished (e.g. 3s overlay).
+@warning_ignore("unused_signal")
 signal level1_intro_finished()
 signal level1_complete()
 signal level2_enemy_remaining_updated(remaining: int)
@@ -91,7 +92,7 @@ func _ensure_key_event(action_name: String, keycode: int) -> void:
 			return
 
 	var new_ev := InputEventKey.new()
-	new_ev.keycode = keycode
+	new_ev.keycode = keycode as Key
 	InputMap.action_add_event(action_name, new_ev)
 
 
@@ -194,6 +195,7 @@ func ensure_level1_bgm_playing() -> void:
 	_level1_bgm.name = &"Level1Bgm"
 	_level1_bgm.stream = mp3
 	_level1_bgm.volume_db = _LEVEL1_BGM_DB
+	_level1_bgm.bus = &"Music"
 	add_child(_level1_bgm)
 	_level1_bgm.play()
 

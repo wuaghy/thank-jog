@@ -9,7 +9,7 @@ signal died
 @onready var attack1_sfx: AudioStreamPlayer = $Attack1Sfx
 @onready var attack2_punch_sfx: AudioStreamPlayer = $Attack2PunchSfx
 
-@export var max_health: int = 100
+@export var max_health: int = 300
 @export var move_speed: float = 200.0
 @export var attack_cooldown: float = 0.4
 ## Primary swing (attack1) hitbox window.
@@ -20,7 +20,7 @@ signal died
 @export_file("*.mp3") var attack2_sound_path: String = "res://Assets/audio/attack2_punch.mp3"
 ## Secondary swing (attack2) hitbox window.
 @export var attack2_duration: float = 0.36
-@export var attack_range_distance: float = 54.0
+@export var attack_range_distance: float = 162.0
 ## Seconds before attack2 can be used again after a swing.
 var attack2_cooldown_duration: float = 10.0
 
