@@ -1,7 +1,6 @@
 extends Control
 
 const MAIN_MENU_PATH := "res://Scenes/MainMenu.tscn"
-const VICTORY_VIDEO_PATH := "res://Assets/video/victory.ogv"
 
 @onready var video_player: VideoStreamPlayer = $VideoStreamPlayer
 @onready var skip_label: Label = $SkipLabel
@@ -9,21 +8,35 @@ const VICTORY_VIDEO_PATH := "res://Assets/video/victory.ogv"
 @onready var play_again_button: Button = $CenterContainer/VBoxContainer/PlayAgainButton
 
 var _post_ui_shown: bool = false
+var _videos: Array[String] = [
+	"res://Assets/video/giong_ve_troi.ogv"
+]
+var _current_video_idx: int = 0
 
 
 func _ready() -> void:
 	post_victory_ui.visible = false
 	play_again_button.pressed.connect(_on_play_again_pressed)
 
-	var stream := VideoStreamTheora.new()
-	stream.file = VICTORY_VIDEO_PATH
-	video_player.stream = stream
 	video_player.finished.connect(_on_video_finished)
+	_current_video_idx = 0
+	_play_current_video()
+
+
+func _play_current_video() -> void:
+	if _current_video_idx >= _videos.size():
+		_show_post_victory_ui()
+		return
+
+	var stream := VideoStreamTheora.new()
+	stream.file = _videos[_current_video_idx]
+	video_player.stream = stream
 	video_player.play()
 
 
 func _on_video_finished() -> void:
-	_show_post_victory_ui()
+	_current_video_idx += 1
+	_play_current_video()
 
 
 func _show_post_victory_ui() -> void:
@@ -49,3 +62,4 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_play_again_pressed() -> void:
 	get_tree().change_scene_to_file(MAIN_MENU_PATH)
+

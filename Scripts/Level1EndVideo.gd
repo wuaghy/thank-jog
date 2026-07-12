@@ -5,18 +5,33 @@ const NEXT_SCENE_PATH := "res://Scenes/Level2InstructionOverlay.tscn"
 @onready var video_player: VideoStreamPlayer = $VideoStreamPlayer
 
 var _transitioning: bool = false
+var _videos: Array[String] = [
+	"res://Assets/video/giong_an_com_va_lon_len.ogv",
+	"res://Assets/video/giong_len_do.ogv"
+]
+var _current_video_idx: int = 0
 
 
 func _ready() -> void:
-	var stream := VideoStreamTheora.new()
-	stream.file = "res://Assets/video/level1_end.ogv"
-	video_player.stream = stream
 	video_player.finished.connect(_on_video_finished)
+	_current_video_idx = 0
+	_play_current_video()
+
+
+func _play_current_video() -> void:
+	if _current_video_idx >= _videos.size():
+		_go_to_next()
+		return
+
+	var stream := VideoStreamTheora.new()
+	stream.file = _videos[_current_video_idx]
+	video_player.stream = stream
 	video_player.play()
 
 
 func _on_video_finished() -> void:
-	_go_to_next()
+	_current_video_idx += 1
+	_play_current_video()
 
 
 func _go_to_next() -> void:
@@ -36,3 +51,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			if tree != null:
 				tree.root.set_input_as_handled()
 			_go_to_next()
+

@@ -90,7 +90,3 @@ block={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-
-[audio]
-
-buses/default_bus_layout="res://default_bus_layout.tres"

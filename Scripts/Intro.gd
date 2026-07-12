@@ -5,18 +5,37 @@ const OPENING_DIALOGUE_PATH := "res://Scenes/OpeningDialogue.tscn"
 @onready var video_player: VideoStreamPlayer = $VideoStreamPlayer
 
 var _transitioning: bool = false
+var _videos: Array[String] = [
+	"res://Assets/video/open_scene.ogv",
+	"res://Assets/video/mami_giong_uom_chan.ogv",
+	"res://Assets/video/su_gia_goi_nguoi_tai.ogv",
+	"res://Assets/video/giong_noi_chuyen_voi_me.ogv",
+	"res://Assets/video/giong_yeu_cau.ogv",
+	"res://Assets/video/su_gia_mang_do.ogv"
+]
+var _current_video_idx: int = 0
 
 
 func _ready() -> void:
-	var stream := VideoStreamTheora.new()
-	stream.file = "res://Assets/video/intro.ogv"
-	video_player.stream = stream
 	video_player.finished.connect(_on_video_finished)
+	_current_video_idx = 0
+	_play_current_video()
+
+
+func _play_current_video() -> void:
+	if _current_video_idx >= _videos.size():
+		_go_to_opening_dialogue()
+		return
+	
+	var stream := VideoStreamTheora.new()
+	stream.file = _videos[_current_video_idx]
+	video_player.stream = stream
 	video_player.play()
 
 
 func _on_video_finished() -> void:
-	_go_to_opening_dialogue()
+	_current_video_idx += 1
+	_play_current_video()
 
 
 func _go_to_opening_dialogue() -> void:
@@ -37,3 +56,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			if tree != null:
 				tree.root.set_input_as_handled()
 			_go_to_opening_dialogue()
+

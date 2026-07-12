@@ -17,6 +17,8 @@ const HEALTH_POTION_SCENE := preload("res://Scenes/HealthPotion.tscn")
 @export var initial_health_potions: int = 3
 
 var _rng := RandomNumberGenerator.new()
+var _mid_level_video_player: VideoStreamPlayer = null
+var _mid_level_video_callback: Callable
 
 
 func _ready() -> void:
@@ -382,10 +384,56 @@ func _spawn_fallback_grid(
 
 func _on_level2_minions_cleared() -> void:
 	enemy_remaining_label.text = "NHIEM VU: Danh bai Boss An"
-	_show_boss_announce("Boss An xuat hien", BOSS_ANNOUNCE_HOLD_SEC)
-	_show_toast("Can than don tan cong manh", 2.4)
-	await get_tree().create_timer(2.7).timeout
-	_spawn_boss()
+	_play_broken_sword_video()
+
+
+func _play_broken_sword_video() -> void:
+	get_tree().paused = true
+	
+	var player := VideoStreamPlayer.new()
+	player.expand = true
+	player.anchor_left = 0.0
+	player.anchor_top = 0.0
+	player.anchor_right = 1.0
+	player.anchor_bottom = 1.0
+	player.offset_left = 0
+	player.offset_top = 0
+	player.offset_right = 0
+	player.offset_bottom = 0
+	
+	var stream := VideoStreamTheora.new()
+	stream.file = "res://Assets/video/giong_gay_kiem_va_nho_tre.ogv"
+	player.stream = stream
+	
+	add_child(player)
+	_mid_level_video_player = player
+	
+	var video_done = func() -> void:
+		_mid_level_video_player = null
+		if is_instance_valid(player):
+			player.stop()
+			player.queue_free()
+		get_tree().paused = false
+		_show_boss_announce("Boss An xuat hien", BOSS_ANNOUNCE_HOLD_SEC)
+		_show_toast("Can than don tan cong manh", 2.4)
+		await get_tree().create_timer(2.7).timeout
+		_spawn_boss()
+		
+	_mid_level_video_callback = video_done
+	player.finished.connect(video_done)
+	player.play()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _mid_level_video_player != null:
+		if event is InputEventKey and event.pressed and not event.is_echo():
+			if event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER:
+				var tree := get_tree()
+				if tree != null:
+					tree.root.set_input_as_handled()
+				_mid_level_video_callback.call()
+				return
+
 
 
 func _spawn_boss() -> void:
