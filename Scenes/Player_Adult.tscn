@@ -4,10 +4,10 @@
 [ext_resource type="SpriteFrames" path="res://Assets/characters/horse_rider/horse_rider_sprite_frames.tres" id="2_horse"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(180, 180)
+size = Vector2(90, 90)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2"]
-size = Vector2(126, 90)
+size = Vector2(63, 45)
 
 [node name="Player_Adult" type="CharacterBody2D"]
 position = Vector2(120, 420)
@@ -21,7 +21,7 @@ shape = SubResource("RectangleShape2D_1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 10
 offset = Vector2(0, -102)
-scale = Vector2(1.35, 1.35)
+scale = Vector2(0.68, 0.68)
 sprite_frames = ExtResource("2_horse")
 animation = &"idle"
 autoplay = "idle"

@@ -20,7 +20,7 @@ signal died
 @export_file("*.mp3") var attack2_sound_path: String = "res://Assets/audio/attack2_punch.mp3"
 ## Secondary swing (attack2) hitbox window.
 @export var attack2_duration: float = 0.36
-@export var attack_range_distance: float = 162.0
+@export var attack_range_distance: float = 90.0
 ## Seconds before attack2 can be used again after a swing.
 var attack2_cooldown_duration: float = 10.0
 

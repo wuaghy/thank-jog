@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const LEVEL1_END_VIDEO_SCENE := "res://Scenes/Level1EndVideo.tscn"
 
-@export var move_speed: float = 150.0
+@export var move_speed: float = 220.0
 @export var hunger_message_duration: float = 3.0
 @export var transform_delay: float = 1.5
 ## Bắt đầu phát từ vị trí này (giây) trong file ăn — MP3 thường có ~1s im lặng đầu file, khiến âm thanh tưởng như trễ so với animation.
